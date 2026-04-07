@@ -1,5 +1,9 @@
 # n8n-pennylane-auto-invoicing
 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![n8n](https://img.shields.io/badge/n8n-1.40%2B-orange)
+![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)
+
 Automate customer invoice creation, payment tracking, and overdue reminders using [n8n](https://n8n.io) and the [Pennylane API v2](https://pennylane.readme.io/).
 
 Pennylane is the leading accounting and financial OS for SMEs in France. This workflow bridges the gap between your business tools and your accounting, without manual data entry.
@@ -12,9 +16,9 @@ This project contains **3 n8n workflows** that work together as a billing automa
 
 | Workflow | Trigger | What it does |
 |----------|---------|--------------|
-| **1 - Create Invoice** | Webhook (any CRM or app) | Receives deal/order data, creates or matches a customer in Pennylane, generates a customer invoice with line items and VAT, optionally sends it by email, and notifies your team |
-| **2 - Track Payments** | Scheduled (cron) | Polls Pennylane for invoice status changes, detects paid and overdue invoices, sends notifications via Slack and/or email |
-| **3 - Overdue Reminder** | Scheduled (cron) | Identifies invoices past due date, sends a payment reminder email to the customer, and notifies your team |
+| **[PENNYLANE] Auto Invoice from Webhook** | Webhook (any CRM or app) | Receives deal/order data, creates or matches a customer in Pennylane, generates a customer invoice with line items and VAT, optionally sends it by email, and notifies your team |
+| **[PENNYLANE] Track Payments** | Scheduled (cron) | Polls Pennylane for invoice status changes, detects paid and overdue invoices, sends notifications via Slack and/or email |
+| **[PENNYLANE] Overdue Reminder** | Scheduled (cron) | Identifies invoices past due date, sends a payment reminder email to the customer, and notifies your team |
 
 ---
 
@@ -79,13 +83,13 @@ Code nodes reference other nodes using `$('Node Name')`. All node names are list
 3. Create a new API token with the following scopes: `customer_invoices:all`, `customers:all`, `products:readonly`, `ledger_accounts:readonly`
 4. Copy and save the token securely
 
-> **Tip:** Use the sandbox environment for testing. Go to your profile (top-right) > Test environment > Create my sandbox. See [`docs/setup-pennylane-sandbox.md`](./docs/setup-pennylane-sandbox.md) for a step-by-step guide.
+> **Tip:** Use the sandbox environment for testing. Go to your profile (top-right) > Test environment > Create my sandbox. See [`setup-pennylane-sandbox.md`](./setup-pennylane-sandbox.md) for a step-by-step guide.
 
 ### 2. Import the workflows
 
 1. Download the workflow JSON files from the [`workflows/`](./workflows/) folder
 2. In n8n, go to the menu (three dots) > **Import from File**
-3. Import `01-create-invoice.json`
+3. Import `[PENNYLANE] Auto Invoice from Webhook.json`
 4. Set up your Pennylane credentials in n8n: create a **Header Auth** credential with name `Authorization` and value `Bearer <YOUR_TOKEN>`
 
 ### 3. Configure
@@ -230,7 +234,7 @@ Use Axonaut's Zapier/Make integration or direct API to trigger a webhook call on
 
 ### Manual (curl/Postman)
 
-Use the test command from the Quick Start section above. See the [`examples/`](./examples/) folder for more sample payloads.
+Use the test command from the Quick Start section above. See the sample payload files at the root of this repo for more examples.
 
 ---
 
@@ -241,27 +245,25 @@ n8n-pennylane-auto-invoicing/
 ├── README.md
 ├── LICENSE
 ├── workflows/
-│   ├── 01-create-invoice.json
-│   ├── 02-track-payments.json
-│   └── 03-overdue-reminder.json
-├── examples/
-│   ├── payload-simple.json
-│   ├── payload-multi-items.json
-│   ├── payload-with-address.json
-│   └── payload-pipedrive-webhook.json
-└── docs/
-    ├── setup-pennylane-sandbox.md
-    ├── pennylane-vat-rates.md
-    └── troubleshooting.md
+│   ├── [PENNYLANE] Auto Invoice from Webhook.json
+│   ├── [PENNYLANE] Track Payments.json
+│   └── [PENNYLANE] Overdue Reminder.json
+├── payload-simple.json
+├── payload-multi-items.json
+├── payload-with-address.json
+├── payload-pipedrive-webhook.json
+├── setup-pennylane-sandbox.md
+├── pennylane-vat-rates.md
+└── troubleshooting.md
 ```
 
 ---
 
 ## Roadmap
 
-- [x] WF1: Invoice creation from webhook
-- [ ] WF2: Payment status tracking
-- [ ] WF3: Overdue reminders
+- [x] [PENNYLANE] Auto Invoice from Webhook
+- [ ] [PENNYLANE] Track Payments
+- [ ] [PENNYLANE] Overdue Reminder
 - [ ] Support for credit notes
 - [ ] Multi-currency invoicing (CHF, USD)
 - [ ] Stripe payment matching (`transaction_reference`)
