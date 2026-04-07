@@ -1,0 +1,34 @@
+{
+  "customer_name": "Boulangerie Martin",
+  "customer_email": "compta@boulangerie-martin.fr",
+  "customer_address": "12 Rue de la Paix",
+  "customer_postal_code": "75002",
+  "customer_city": "Paris",
+  "customer_country": "FR",
+  "items": [
+    {
+      "label": "Audit workflow automation",
+      "quantity": 1,
+      "unit_price": 1500,
+      "vat_rate": "FR_200"
+    },
+    {
+      "label": "Setup n8n workflows (3 workflows)",
+      "quantity": 3,
+      "unit_price": 800,
+      "vat_rate": "FR_200"
+    },
+    {
+      "label": "Monthly maintenance - April 2026",
+      "quantity": 1,
+      "unit_price": 200,
+      "vat_rate": "FR_200"
+    }
+  ],
+  "due_date": "2026-05-15",
+  "currency": "EUR",
+  "payment_conditions": "30_days",
+  "reference": "PROJ-2026-042",
+  "send_email": true,
+  "notification_email": "your-email@example.com"
+}

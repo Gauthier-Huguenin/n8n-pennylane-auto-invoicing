@@ -1,0 +1,16 @@
+{
+  "customer_name": "Acme Corp",
+  "customer_email": "billing@acme.com",
+  "customer_postal_code": "75001",
+  "customer_city": "Paris",
+  "items": [
+    {
+      "label": "AI Automation Consulting - April 2026",
+      "quantity": 1,
+      "unit_price": 2500,
+      "vat_rate": "FR_200"
+    }
+  ],
+  "due_date": "2026-05-07",
+  "currency": "EUR"
+}

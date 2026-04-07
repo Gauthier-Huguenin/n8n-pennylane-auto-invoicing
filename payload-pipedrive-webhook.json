@@ -1,0 +1,27 @@
+{
+  "_comment": "This is an example of how to map a Pipedrive 'deal won' webhook payload to the n8n-pennylane-auto-invoicing format. Use an n8n Set node or Code node to transform the Pipedrive payload before passing it to WF1.",
+
+  "_pipedrive_original_fields": {
+    "current.org_name": "Acme Corp",
+    "current.person_id.email[0].value": "john@acme.com",
+    "current.value": 5000,
+    "current.title": "AI Agent Setup - Q2 2026",
+    "current.id": 12345
+  },
+
+  "_mapped_payload": {
+    "customer_name": "{{$json.current.org_name}}",
+    "customer_email": "{{$json.current.person_id.email[0].value}}",
+    "items": [
+      {
+        "label": "{{$json.current.title}}",
+        "quantity": 1,
+        "unit_price": "{{$json.current.value}}",
+        "vat_rate": "FR_200"
+      }
+    ],
+    "reference": "pipedrive-{{$json.current.id}}",
+    "currency": "EUR",
+    "payment_conditions": "30_days"
+  }
+}

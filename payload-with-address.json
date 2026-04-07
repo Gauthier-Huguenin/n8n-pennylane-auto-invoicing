@@ -1,0 +1,21 @@
+{
+  "customer_name": "Studio Design SA",
+  "customer_email": "finance@studiodesign.ch",
+  "customer_address": "Rue du Rhone 14",
+  "customer_postal_code": "1204",
+  "customer_city": "Geneve",
+  "customer_country": "CH",
+  "items": [
+    {
+      "label": "Workshop AI & Automation - 2 days on-site",
+      "quantity": 2,
+      "unit_price": 1800,
+      "vat_rate": "exempt"
+    }
+  ],
+  "due_date": "2026-06-01",
+  "currency": "EUR",
+  "payment_conditions": "30_days",
+  "reference": "WS-2026-CH-003",
+  "send_email": false
+}
