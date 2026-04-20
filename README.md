@@ -22,7 +22,9 @@ This project contains **3 n8n workflows** that work together as a billing automa
 
 ---
 
-## WF1: Create Invoice — Detailed flow
+## WF1: Create Invoice
+
+![WF1 - Create Invoice](assets/wf1-create-invoice.png)
 
 ```
 WH Receive Invoice Data
@@ -42,7 +44,9 @@ WH Receive Invoice Data
   → Set Output Response
 ```
 
-## WF2: Track Payments — Detailed flow
+## WF2: Track Payments
+
+![WF2 - Track Payments](assets/wf2-track-payments.png)
 
 ```
 Schedule Trigger (every 15 min)
@@ -53,7 +57,9 @@ Schedule Trigger (every 15 min)
     → (no)  Set Done
 ```
 
-## WF3: Overdue Reminder — Detailed flow
+## WF3: Overdue Reminder
+
+![WF3 - Overdue Reminder](assets/wf3-overdue-reminder.png)
 
 ```
 Schedule Trigger (daily at 9 AM)
@@ -64,7 +70,7 @@ Schedule Trigger (daily at 9 AM)
     → (no)  Set Done
 ```
 
-Each section of every workflow is documented with a colored Sticky Note explaining its purpose, the API endpoints used, and the expected data format.
+Each section of every workflow is documented with colored Sticky Notes explaining its purpose, the API endpoints used, and the expected data format.
 
 ---
 
@@ -272,6 +278,10 @@ Use the test command from the Quick Start section above. See the [`examples/`](.
 n8n-pennylane-auto-invoicing/
 ├── README.md
 ├── LICENSE
+├── assets/
+│   ├── wf1-create-invoice.png
+│   ├── wf2-track-payments.png
+│   └── wf3-overdue-reminder.png
 ├── workflows/
 │   ├── 01-create-invoice.json
 │   ├── 02-track-payments.json
