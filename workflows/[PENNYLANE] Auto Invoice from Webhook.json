@@ -72,8 +72,8 @@
       "name": "PL Search Customer",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "NQjLKctX7yT9vOUQ",
-          "name": "Pennylane API"
+          "id": "",
+          "name": ""
         }
       }
     },
@@ -131,8 +131,8 @@
       "name": "PL Create Customer",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "NQjLKctX7yT9vOUQ",
-          "name": "Pennylane API"
+          "id": "",
+          "name": ""
         }
       }
     },
@@ -180,8 +180,8 @@
       "name": "PL Create Invoice",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "NQjLKctX7yT9vOUQ",
-          "name": "Pennylane API"
+          "id": "",
+          "name": ""
         }
       }
     },
@@ -269,8 +269,8 @@
       "webhookId": "f2c28848-283c-4ca1-b9c7-e47d6da805c3",
       "credentials": {
         "slackOAuth2Api": {
-          "id": "jFDYXxDj3OBI3zxd",
-          "name": "Slack account"
+          "id": "",
+          "name": ""
         }
       }
     },
@@ -335,7 +335,7 @@
       "typeVersion": 1.1,
       "position": [
         2288,
-        -40
+        -48
       ],
       "id": "f12591be-0ef5-4cc5-8232-a9058b77d8b6",
       "name": "Wait PDF Generation",
@@ -353,14 +353,14 @@
       "typeVersion": 4.4,
       "position": [
         2512,
-        -40
+        -48
       ],
       "id": "892471ed-1b8a-427c-a310-0f40ec49b632",
       "name": "PL Send Invoice Email",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "NQjLKctX7yT9vOUQ",
-          "name": "Pennylane API"
+          "id": "",
+          "name": ""
         }
       }
     },
@@ -382,8 +382,8 @@
       "webhookId": "33b592da-5502-4eb7-ad16-3735811be9dc",
       "credentials": {
         "gmailOAuth2": {
-          "id": "71awnvgsrArieCg8",
-          "name": "gauthier@hgnn.io"
+          "id": "",
+          "name": ""
         }
       }
     },
@@ -734,8 +734,6 @@
     "timeSavedMode": "fixed",
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": true,
-    "errorWorkflow": "tdCiprambnqIqdrn",
-    "executionTimeout": -1,
     "timeSavedPerExecution": 5
   },
   "versionId": "91238c54-efda-4f81-b8d0-6b2fee1f78e8",
