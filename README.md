@@ -299,18 +299,6 @@ n8n-pennylane-auto-invoicing/
 
 ---
 
-## Roadmap
-
-- [x] WF1: Invoice creation from webhook
-- [x] WF2: Payment status tracking
-- [x] WF3: Overdue reminders
-- [ ] Support for credit notes
-- [ ] Multi-currency invoicing (CHF, USD)
-- [ ] Stripe payment matching (`transaction_reference`)
-- [ ] GoCardless payment matching
-
----
-
 ## Contributing
 
 Contributions are welcome. If you use a different CRM or have a specific Pennylane use case, feel free to open an issue or submit a PR with your payload mapping.
