@@ -17,8 +17,8 @@ This project contains **3 n8n workflows** that work together as a billing automa
 | Workflow | Trigger | What it does |
 |----------|---------|--------------|
 | **[PENNYLANE] Auto Invoice from Webhook** | Webhook (any CRM or app) | Receives deal/order data, creates or matches a customer in Pennylane, generates a customer invoice with line items and VAT, optionally sends it by email, and notifies your team |
-| **[PENNYLANE] Track Payments** | Scheduled (cron) | Polls Pennylane for invoice status changes, detects paid and overdue invoices, sends notifications via Slack and/or email |
-| **[PENNYLANE] Overdue Reminder** | Scheduled (cron) | Identifies invoices past due date, sends a payment reminder email to the customer, and notifies your team |
+| **[PENNYLANE] Track Payments** | Scheduled (every 15 min) | Polls Pennylane for invoice status changes, classifies invoices as paid, overdue, or upcoming, sends Slack notifications when changes are detected |
+| **[PENNYLANE] Overdue Reminder** | Scheduled (daily at 9 AM) | Identifies unpaid invoices past their deadline by 7+ days, sends a detailed Slack reminder with invoice links |
 
 ---
 
@@ -42,7 +42,29 @@ WH Receive Invoice Data
   → Set Output Response
 ```
 
-Each section of the workflow is documented with a colored Sticky Note explaining its purpose, the API endpoints used, and the expected data format.
+## WF2: Track Payments — Detailed flow
+
+```
+Schedule Trigger (every 15 min)
+  → PL Fetch Invoices
+  → Code Filter Status Changes
+  → IF Has Updates
+    → (yes) Code Build Payment Notification → SL Send Notification
+    → (no)  Set Done
+```
+
+## WF3: Overdue Reminder — Detailed flow
+
+```
+Schedule Trigger (daily at 9 AM)
+  → PL Fetch Invoices
+  → Code Filter Overdue
+  → IF Has Overdue
+    → (yes) Code Build Reminder → SL Send Notification
+    → (no)  Set Done
+```
+
+Each section of every workflow is documented with a colored Sticky Note explaining its purpose, the API endpoints used, and the expected data format.
 
 ---
 
@@ -53,14 +75,14 @@ All nodes follow a strict naming convention for readability and maintainability.
 | Prefix | Service | Examples |
 |--------|---------|----------|
 | `WH` | Webhook | WH Receive Invoice Data |
-| `PL` | Pennylane | PL Search Customer, PL Create Customer, PL Create Invoice, PL Send Invoice Email |
+| `PL` | Pennylane | PL Search Customer, PL Create Customer, PL Create Invoice, PL Send Invoice Email, PL Fetch Invoices |
 | `SL` | Slack | SL Send Notification |
 | `GM` | Gmail | GM Send Notification |
-| `IF` | Condition | IF Customer Exists, IF Send Email, IF Has Notification Email |
-| `Set` | Set node | Set Customer ID, Set Output Response |
-| `Code` | Code (JavaScript) | Code Validate Payload, Code Build Invoice Payload, Code Build Notification |
+| `IF` | Condition | IF Customer Exists, IF Send Email, IF Has Notification Email, IF Has Updates, IF Has Overdue |
+| `Set` | Set node | Set Customer ID, Set Output Response, Set Done |
+| `Code` | Code (JavaScript) | Code Validate Payload, Code Build Invoice Payload, Code Build Notification, Code Filter Status Changes, Code Filter Overdue, Code Build Payment Notification, Code Build Reminder |
 
-Code nodes reference other nodes using `$('Node Name')`. All node names are listed in the main Sticky Note for quick reference when renaming.
+Code nodes reference other nodes using `$('Node Name')`. All node names are listed in the main Sticky Note of each workflow for quick reference when renaming.
 
 ---
 
@@ -83,13 +105,16 @@ Code nodes reference other nodes using `$('Node Name')`. All node names are list
 3. Create a new API token with the following scopes: `customer_invoices:all`, `customers:all`, `products:readonly`, `ledger_accounts:readonly`
 4. Copy and save the token securely
 
-> **Tip:** Use the sandbox environment for testing. Go to your profile (top-right) > Test environment > Create my sandbox. See [`setup-pennylane-sandbox.md`](./setup-pennylane-sandbox.md) for a step-by-step guide.
+> **Tip:** Use the sandbox environment for testing. Go to your profile (top-right) > Test environment > Create my sandbox. See [`docs/setup-pennylane-sandbox.md`](./docs/setup-pennylane-sandbox.md) for a step-by-step guide.
 
 ### 2. Import the workflows
 
 1. Download the workflow JSON files from the [`workflows/`](./workflows/) folder
 2. In n8n, go to the menu (three dots) > **Import from File**
-3. Import `[PENNYLANE] Auto Invoice from Webhook.json`
+3. Import each workflow:
+   - `01-create-invoice.json`
+   - `02-track-payments.json`
+   - `03-overdue-reminder.json`
 4. Set up your Pennylane credentials in n8n: create a **Header Auth** credential with name `Authorization` and value `Bearer <YOUR_TOKEN>`
 
 ### 3. Configure
@@ -100,9 +125,9 @@ After importing, you need to set up credentials for each service used in the wor
 |------------|------|----------|
 | Pennylane API | Header Auth (`Authorization: Bearer <token>`) | Yes |
 | Slack | OAuth2 | Optional |
-| Gmail | OAuth2 | Optional |
+| Gmail | OAuth2 | Optional (WF1 only) |
 
-Configure your Error Workflow in the workflow settings for production error handling.
+Configure your Error Workflow in each workflow's settings for production error handling.
 
 ### 4. Test
 
@@ -179,9 +204,12 @@ This workflow was built and tested against the Pennylane Company API v2 in a san
 | Search customers | GET | `/customers` |
 | Create customer | POST | `/company_customers` (not `/customers`) |
 | Create invoice | POST | `/customer_invoices` |
+| List invoices | GET | `/customer_invoices` |
 | Send invoice by email | POST | `/customer_invoices/{id}/send_by_email` |
 
 **Filtering customers by email:** The filter field is `emails` (plural), and the only allowed operator is `in` (not `eq`). Example: `[{"field":"emails","operator":"in","value":"test@example.com"}]`
+
+**Filtering invoices by status:** The Pennylane API does not support filtering by `status` or `paid` fields. All filtering must be done client-side after fetching invoices. The `draft` field supports filtering but only with string values `"true"` or `"false"` passed through URL encoding.
 
 **Creating a customer:** The `billing_address` object requires `address`, `postal_code`, `city`, and `country_alpha2` (not `country`). All four fields are mandatory.
 
@@ -234,7 +262,7 @@ Use Axonaut's Zapier/Make integration or direct API to trigger a webhook call on
 
 ### Manual (curl/Postman)
 
-Use the test command from the Quick Start section above. See the sample payload files at the root of this repo for more examples.
+Use the test command from the Quick Start section above. See the [`examples/`](./examples/) folder for sample payloads.
 
 ---
 
@@ -245,25 +273,27 @@ n8n-pennylane-auto-invoicing/
 ├── README.md
 ├── LICENSE
 ├── workflows/
-│   ├── [PENNYLANE] Auto Invoice from Webhook.json
-│   ├── [PENNYLANE] Track Payments.json
-│   └── [PENNYLANE] Overdue Reminder.json
-├── payload-simple.json
-├── payload-multi-items.json
-├── payload-with-address.json
-├── payload-pipedrive-webhook.json
-├── setup-pennylane-sandbox.md
-├── pennylane-vat-rates.md
-└── troubleshooting.md
+│   ├── 01-create-invoice.json
+│   ├── 02-track-payments.json
+│   └── 03-overdue-reminder.json
+├── examples/
+│   ├── payload-simple.json
+│   ├── payload-multi-items.json
+│   ├── payload-with-address.json
+│   └── payload-pipedrive-webhook.json
+└── docs/
+    ├── setup-pennylane-sandbox.md
+    ├── pennylane-vat-rates.md
+    └── troubleshooting.md
 ```
 
 ---
 
 ## Roadmap
 
-- [x] [PENNYLANE] Auto Invoice from Webhook
-- [ ] [PENNYLANE] Track Payments
-- [ ] [PENNYLANE] Overdue Reminder
+- [x] WF1: Invoice creation from webhook
+- [x] WF2: Payment status tracking
+- [x] WF3: Overdue reminders
 - [ ] Support for credit notes
 - [ ] Multi-currency invoicing (CHF, USD)
 - [ ] Stripe payment matching (`transaction_reference`)
