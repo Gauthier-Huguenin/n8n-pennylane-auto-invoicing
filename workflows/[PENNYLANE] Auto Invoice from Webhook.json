@@ -251,9 +251,9 @@
         "select": "channel",
         "channelId": {
           "__rl": true,
-          "value": "C0AS77MKC64",
+          "value": "",
           "mode": "list",
-          "cachedResultName": "pennylane-notifications"
+          "cachedResultName": ""
         },
         "text": "={{ $json.message }}",
         "otherOptions": {}
@@ -727,7 +727,7 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",

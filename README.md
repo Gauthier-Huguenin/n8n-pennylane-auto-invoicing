@@ -118,10 +118,11 @@ Code nodes reference other nodes using `$('Node Name')`. All node names are list
 1. Download the workflow JSON files from the [`workflows/`](./workflows/) folder
 2. In n8n, go to the menu (three dots) > **Import from File**
 3. Import each workflow:
-   - `01-create-invoice.json`
-   - `02-track-payments.json`
-   - `03-overdue-reminder.json`
+   - `[PENNYLANE] Auto Invoice from Webhook.json`
+   - `[PENNYLANE] Track Payments.json`
+   - `[PENNYLANE] Overdue Reminder.json`
 4. Set up your Pennylane credentials in n8n: create a **Header Auth** credential with name `Authorization` and value `Bearer <YOUR_TOKEN>`
+5. In each Slack node (`SL Send Notification`), select your target channel — the template ships with the channel selector empty
 
 ### 3. Configure
 
@@ -283,18 +284,20 @@ n8n-pennylane-auto-invoicing/
 │   ├── wf2-track-payments.png
 │   └── wf3-overdue-reminder.png
 ├── workflows/
-│   ├── 01-create-invoice.json
-│   ├── 02-track-payments.json
-│   └── 03-overdue-reminder.json
+│   ├── [PENNYLANE] Auto Invoice from Webhook.json
+│   ├── [PENNYLANE] Track Payments.json
+│   └── [PENNYLANE] Overdue Reminder.json
 ├── examples/
 │   ├── payload-simple.json
 │   ├── payload-multi-items.json
 │   ├── payload-with-address.json
 │   └── payload-pipedrive-webhook.json
-└── docs/
-    ├── setup-pennylane-sandbox.md
-    ├── pennylane-vat-rates.md
-    └── troubleshooting.md
+├── docs/
+│   ├── setup-pennylane-sandbox.md
+│   ├── pennylane-vat-rates.md
+│   └── troubleshooting.md
+└── scripts/
+    └── clean-workflows.sh
 ```
 
 ---
