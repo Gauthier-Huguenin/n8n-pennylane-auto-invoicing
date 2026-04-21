@@ -234,6 +234,33 @@ This workflow was built and tested against the Pennylane Company API v2 in a san
 
 ---
 
+## Human review / Draft mode
+
+By default, WF1 creates finalized invoices (`draft: false`). This means invoices are immediately numbered, accounted for, and ready to send. This works well when the data coming from your CRM or webhook is already validated (e.g., a deal confirmed as "Won" with verified amounts).
+
+For teams that need a manual review step before finalizing, change one line in the `Code Build Invoice Payload` node:
+
+```javascript
+// Change this:
+draft: false
+
+// To this:
+draft: true
+```
+
+With `draft: true`, the workflow becomes a human-in-the-loop process:
+
+1. The invoice is created as a draft in Pennylane (no invoice number assigned yet)
+2. The Slack notification alerts your team that a draft is ready for review
+3. A team member reviews the draft in Pennylane and finalizes it manually
+4. Invoice numbering and accounting entries are only created upon finalization
+
+This is the recommended starting point for most teams. You can switch to `draft: false` once you trust the data quality from your source system.
+
+For a more advanced setup, you could add Slack interactive buttons ("Approve / Reject") that trigger a second workflow to finalize or discard the draft via the Pennylane API.
+
+---
+
 ## CRM integration examples
 
 The webhook accepts a generic JSON payload, so you can connect any CRM or app. Here are common setups:
