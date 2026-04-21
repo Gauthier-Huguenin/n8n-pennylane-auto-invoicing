@@ -16,9 +16,9 @@ This project contains **3 n8n workflows** that work together as a billing automa
 
 | Workflow | Trigger | What it does |
 |----------|---------|--------------|
-| **[PENNYLANE] Auto Invoice from Webhook** | Webhook (any CRM or app) | Receives deal/order data, creates or matches a customer in Pennylane, generates a customer invoice with line items and VAT, optionally sends it by email, and notifies your team |
-| **[PENNYLANE] Track Payments** | Scheduled (every 15 min) | Polls Pennylane for invoice status changes, classifies invoices as paid, overdue, or upcoming, sends Slack notifications when changes are detected |
-| **[PENNYLANE] Overdue Reminder** | Scheduled (daily at 9 AM) | Identifies unpaid invoices past their deadline by 7+ days, sends a detailed Slack reminder with invoice links |
+| **Create and send Pennylane invoices from webhook data** | Webhook (any CRM or app) | Receives deal/order data, creates or matches a customer in Pennylane, generates a customer invoice with line items and VAT, optionally sends it by email, and notifies your team |
+| **Track Pennylane invoice payment status with Slack notifications** | Scheduled (every 15 min) | Polls Pennylane for invoice status changes, classifies invoices as paid, overdue, or upcoming, sends Slack notifications when changes are detected |
+| **Send overdue invoice reminders from Pennylane to Slack** | Scheduled (daily at 9 AM) | Identifies unpaid invoices past their deadline by 7+ days, sends a detailed Slack reminder with invoice links |
 
 ---
 
@@ -118,9 +118,9 @@ Code nodes reference other nodes using `$('Node Name')`. All node names are list
 1. Download the workflow JSON files from the [`workflows/`](./workflows/) folder
 2. In n8n, go to the menu (three dots) > **Import from File**
 3. Import each workflow:
-   - `[PENNYLANE] Auto Invoice from Webhook.json`
-   - `[PENNYLANE] Track Payments.json`
-   - `[PENNYLANE] Overdue Reminder.json`
+   - `01-create-invoice.json`
+   - `02-track-payments.json`
+   - `03-overdue-reminder.json`
 4. Set up your Pennylane credentials in n8n: create a **Header Auth** credential with name `Authorization` and value `Bearer <YOUR_TOKEN>`
 5. In each Slack node (`SL Send Notification`), select your target channel — the template ships with the channel selector empty
 
@@ -311,9 +311,9 @@ n8n-pennylane-auto-invoicing/
 │   ├── wf2-track-payments.png
 │   └── wf3-overdue-reminder.png
 ├── workflows/
-│   ├── [PENNYLANE] Auto Invoice from Webhook.json
-│   ├── [PENNYLANE] Track Payments.json
-│   └── [PENNYLANE] Overdue Reminder.json
+│   ├── 01-create-invoice.json
+│   ├── 02-track-payments.json
+│   └── 03-overdue-reminder.json
 ├── examples/
 │   ├── payload-simple.json
 │   ├── payload-multi-items.json

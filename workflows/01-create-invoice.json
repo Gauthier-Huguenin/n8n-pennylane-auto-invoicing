@@ -1,15 +1,15 @@
 {
-  "name": "[PENNYLANE] Auto Invoice from Webhook",
+  "name": "Create and send Pennylane invoices from webhook data",
   "nodes": [
     {
       "parameters": {
-        "content": "# [PENNYLANE] Auto Invoice from Webhook\n\n**Trigger:** Webhook POST `/pennylane-invoice`\n**Source:** Any CRM, form, or manual call\n\n---\n\n### Flow\n\n`WH Receive Invoice Data`\n  → `Code Validate Payload`\n  → `PL Search Customer`\n  → `IF Customer Exists`\n    → ✅ `Set Customer ID`\n    → ❌ `PL Create Customer` → `Set Customer ID`\n  → `Code Build Invoice Payload`\n  → `PL Create Invoice`\n  → `IF Send Email`\n    → ✅ `Wait PDF Generation` → `PL Send Invoice Email`\n  → `Code Build Notification`\n    → `SL Send Notification`\n    → `IF Has Notification Email`\n      → ✅ `GM Send Notification`\n  → `Set Output Response`\n\n---\n\n### Services & Credentials\n\n| Service | Credential |\n|---------|-----------|\n| Pennylane API v2 | Pennylane API (HTTP Header Auth) |\n| Slack (optional) | Slack OAuth |\n| Gmail (optional) | Gmail OAuth |\n\n---\n\n### Node refs for $()\n\n- WH Receive Invoice Data\n- Code Validate Payload\n- PL Search Customer\n- IF Customer Exists\n- Set Customer ID\n- PL Create Customer\n- Code Build Invoice Payload\n- PL Create Invoice\n- IF Send Email\n- Wait PDF Generation\n- PL Send Invoice Email\n- Code Build Notification\n- SL Send Notification\n- IF Has Notification Email\n- GM Send Notification\n- Set Output Response",
-        "height": 752,
-        "width": 480
+        "content": "# Create and send Pennylane invoices from webhook data\n\n## Who is this for\n\nSMEs and freelancers using Pennylane (French accounting platform) who want to automate invoice creation from their CRM, forms, or any business tool.\n\n## What it does\n\nThis workflow receives deal or order data via a POST webhook, searches for the customer in Pennylane (or creates one), generates a customer invoice with line items and VAT, optionally sends it by email through Pennylane, and notifies your team via Slack and/or Gmail.\n\n## How to set up\n\n1. Import this workflow into n8n\n2. Create a Header Auth credential: name `Authorization`, value `Bearer <YOUR_PENNYLANE_TOKEN>`\n3. Select your Slack channel in the SL Send Notification node\n4. (Optional) Connect your Gmail credential for email notifications\n5. Configure invoice numbering in your Pennylane settings\n6. Send a test POST request to the webhook URL\n\n## Requirements\n\n- Pennylane account with API access (Essentiel plan or higher)\n- Pennylane API token with scopes: customer_invoices:all, customers:all\n- (Optional) Slack workspace\n- (Optional) Gmail OAuth credentials\n\nFull documentation: https://github.com/Gauthier-Huguenin/n8n-pennylane-auto-invoicing\n\n---\n\n### Flow\n\n`WH Receive Invoice Data`\n  → `Code Validate Payload`\n  → `PL Search Customer`\n  → `IF Customer Exists`\n    → ✅ `Set Customer ID`\n    → ❌ `PL Create Customer` → `Set Customer ID`\n  → `Code Build Invoice Payload`\n  → `PL Create Invoice`\n  → `IF Send Email`\n    → ✅ `Wait PDF Generation` → `PL Send Invoice Email`\n  → `Code Build Notification`\n    → `SL Send Notification`\n    → `IF Has Notification Email`\n      → ✅ `GM Send Notification`\n  → `Set Output Response`\n\n---\n\n### Node refs for $()\n\n- WH Receive Invoice Data\n- Code Validate Payload\n- PL Search Customer\n- IF Customer Exists\n- Set Customer ID\n- PL Create Customer\n- Code Build Invoice Payload\n- PL Create Invoice\n- IF Send Email\n- Wait PDF Generation\n- PL Send Invoice Email\n- Code Build Notification\n- SL Send Notification\n- IF Has Notification Email\n- GM Send Notification\n- Set Output Response",
+        "height": 1376,
+        "width": 720
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -352,
+        -592,
         -272
       ],
       "typeVersion": 1,
@@ -736,10 +736,9 @@
     "availableInMCP": true,
     "timeSavedPerExecution": 5
   },
-  "versionId": "91238c54-efda-4f81-b8d0-6b2fee1f78e8",
+  "versionId": "3fe3cb52-7487-4b8a-aa71-b7edad00a789",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "70ec3bed341af97283a0a6dbf0b48c20f5e82d1a117b40451ad8016f7992090c"
   },
   "id": "UI00dYBcdYiWLc5Y",
   "tags": []

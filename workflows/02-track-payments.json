@@ -1,15 +1,15 @@
 {
-  "name": "[PENNYLANE] Track Payments",
+  "name": "Track Pennylane invoice payment status with Slack notifications",
   "nodes": [
     {
       "parameters": {
-        "content": "# [PENNYLANE] Track Payments\n\n**Trigger:** Schedule (every 15 minutes)\n**Source:** Pennylane API v2 - customer invoices\n\n---\n\n### Flow\n\n`Schedule Trigger`\n  → `PL Fetch Invoices`\n  → `Code Filter Status Changes`\n  → `IF Has Updates`\n    → ✅ `Code Build Payment Notification`\n      → `SL Send Notification`\n  → `Set Done`\n\n---\n\n### Services & Credentials\n\n| Service | Credential |\n|---------|-----------|\n| Pennylane API v2 | Pennylane API (HTTP Header Auth) |\n| Slack (optional) | Slack OAuth |\n\n---\n\n### Node refs for $()\n\n- Schedule Trigger\n- PL Fetch Invoices\n- Code Filter Status Changes\n- IF Has Updates\n- Code Build Payment Notification\n- SL Send Notification\n- Set Done",
-        "height": 608,
-        "width": 544
+        "content": "# Track Pennylane invoice payment status with Slack notifications\n\n## Who is this for\n\nTeams using Pennylane who want automatic alerts when invoices are paid or become overdue, without checking Pennylane manually.\n\n## What it does\n\nThis workflow runs every 15 minutes, fetches all customer invoices from Pennylane, and classifies them as paid, overdue, or upcoming. If any invoices have been paid or are overdue, it sends a summary notification to Slack. If everything is normal, the workflow ends silently.\n\n## How to set up\n\n1. Import this workflow into n8n\n2. Create a Header Auth credential: name `Authorization`, value `Bearer <YOUR_PENNYLANE_TOKEN>`\n3. Select your Slack channel in the SL Send Notification node\n4. Adjust the schedule interval in the Schedule Trigger node if needed\n\n## Requirements\n\n- Pennylane account with API access (Essentiel plan or higher)\n- Pennylane API token with scope: customer_invoices:all\n- (Optional) Slack workspace\n\nNote: Pennylane API does not support filtering by status or paid fields. All classification is done client-side in a Code node.\n\nPart of a 3-workflow billing suite: https://github.com/Gauthier-Huguenin/n8n-pennylane-auto-invoicing\n\n---\n\n### Flow\n\n`Schedule Trigger`\n  → `PL Fetch Invoices`\n  → `Code Filter Status Changes`\n  → `IF Has Updates`\n    → ✅ `Code Build Payment Notification` → `SL Send Notification`\n    → ❌ `Set Done`\n\n---\n\n### Node refs for $()\n\n- Schedule Trigger\n- PL Fetch Invoices\n- Code Filter Status Changes\n- IF Has Updates\n- Code Build Payment Notification\n- SL Send Notification\n- Set Done",
+        "height": 1024,
+        "width": 640
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -688,
+        -784,
         -272
       ],
       "typeVersion": 1,
@@ -327,13 +327,11 @@
     "binaryMode": "separate",
     "timeSavedMode": "fixed",
     "callerPolicy": "workflowsFromSameOwner",
-    "executionTimeout": -1,
     "availableInMCP": true
   },
-  "versionId": "b182dbdb-49af-4e9b-abb5-964fbb5f6171",
+  "versionId": "dde5f875-d519-4a40-ac7f-dcd79c2149dc",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "70ec3bed341af97283a0a6dbf0b48c20f5e82d1a117b40451ad8016f7992090c"
   },
   "id": "iiAZtgzpKqekwA9W",
   "tags": []

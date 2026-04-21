@@ -1,15 +1,15 @@
 {
-  "name": "[PENNYLANE] Overdue Reminder",
+  "name": "Send overdue invoice reminders from Pennylane to Slack",
   "nodes": [
     {
       "parameters": {
-        "content": "# [PENNYLANE] Overdue Reminder\n\n**Trigger:** Schedule (daily at 9:00 AM)\n**Source:** Pennylane API v2 - customer invoices\n\n---\n\n### Flow\n\n`Schedule Trigger`\n  → `PL Fetch Invoices`\n  → `Code Filter Overdue`\n  → `IF Has Overdue`\n    → ✅ `Code Build Reminder`\n      → `SL Send Notification`\n  → `Set Done`\n\n---\n\n### Services & Credentials\n\n| Service | Credential |\n|---------|-----------|\n| Pennylane API v2 | Pennylane API (HTTP Header Auth) |\n| Slack (optional) | Slack OAuth |\n\n---\n\n### Node refs for $()\n\n- Schedule Trigger\n- PL Fetch Invoices\n- Code Filter Overdue\n- IF Has Overdue\n- Code Build Reminder\n- SL Send Notification\n- Set Done",
-        "height": 608,
-        "width": 416
+        "content": "# Send overdue invoice reminders from Pennylane to Slack\n\n## Who is this for\n\nFinance teams and freelancers using Pennylane who want daily alerts for unpaid invoices that need follow-up.\n\n## What it does\n\nThis workflow runs daily at 9 AM, fetches all customer invoices from Pennylane, and identifies unpaid invoices past their deadline by 7 or more days. If overdue invoices are found, it sends a detailed Slack reminder with invoice number, amount, days overdue, and a direct link to the PDF. If no invoices are overdue, the workflow ends silently.\n\n## How to set up\n\n1. Import this workflow into n8n\n2. Create a Header Auth credential: name `Authorization`, value `Bearer <YOUR_PENNYLANE_TOKEN>`\n3. Select your Slack channel in the SL Send Notification node\n4. Adjust the schedule time in the Schedule Trigger node if needed\n5. Change THRESHOLD_DAYS in the Code Filter Overdue node to adjust sensitivity (default: 7 days)\n\n## Requirements\n\n- Pennylane account with API access (Essentiel plan or higher)\n- Pennylane API token with scope: customer_invoices:all\n- (Optional) Slack workspace\n\nPart of a 3-workflow billing suite: https://github.com/Gauthier-Huguenin/n8n-pennylane-auto-invoicing\n\n---\n\n### Flow\n\n`Schedule Trigger`\n  → `PL Fetch Invoices`\n  → `Code Filter Overdue`\n  → `IF Has Overdue`\n    → ✅ `Code Build Reminder` → `SL Send Notification`\n    → ❌ `Set Done`\n\n---\n\n### Node refs for $()\n\n- Schedule Trigger\n- PL Fetch Invoices\n- Code Filter Overdue\n- IF Has Overdue\n- Code Build Reminder\n- SL Send Notification\n- Set Done",
+        "height": 1088,
+        "width": 528
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -448,
+        -560,
         -80
       ],
       "typeVersion": 1,
@@ -321,10 +321,9 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": true
   },
-  "versionId": "a2cf0709-0d9b-4746-a6ca-ed2dadb03ada",
+  "versionId": "f5426a5b-51e2-4484-ad5d-bff97b721bef",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "70ec3bed341af97283a0a6dbf0b48c20f5e82d1a117b40451ad8016f7992090c"
   },
   "id": "hihBb5dvnUpjT1Ti",
   "tags": []
